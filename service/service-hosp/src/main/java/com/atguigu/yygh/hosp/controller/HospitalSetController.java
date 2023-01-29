@@ -16,7 +16,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/admin/hosp/hospitalset")
-@CrossOrigin
+//@CrossOrigin
 public class HospitalSetController {
     @Autowired
     private HospitalSetService hospitalSetService;

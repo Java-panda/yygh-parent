@@ -14,7 +14,9 @@ public interface DictService extends IService<Dict> {
 
     void uploadDictExcelList(MultipartFile multipartFile);
 
-    Dict getDictByDictCode(String dictCode);
-
     Dict getDictByDictCodeAndvalue(String dictCode, String value);
+
+    Dict getDictByValue(String value);
+
+    List<Dict> getDictListByDictCode(String dictCode);
 }

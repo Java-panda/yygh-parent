@@ -5,6 +5,7 @@ import com.atguigu.yygh.model.hosp.Schedule;
 import com.atguigu.yygh.vo.hosp.ScheduleQueryVo;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ScheduleService {
@@ -14,4 +15,8 @@ public interface ScheduleService {
     Page<Schedule> schedulePageList(Integer page, Integer limit, ScheduleQueryVo scheduleQueryVo);
 
     void deleteScheduleByHoscodeAndHosScheduleId(String hoscode, String hosScheduleId);
+
+    Map<String, Object> getSchedulePageByHoscodeAndDepcode(String hoscode, String depcode, Integer page, Integer limit);
+
+    List<Schedule> getScheduleByHoscodeAndDepcodeAndWorkDate(String hoscode, String depcode, String workDate);
 }

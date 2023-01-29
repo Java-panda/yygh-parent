@@ -1,17 +1,15 @@
-package com.atguigu.yygh.hosp;
+package com.atguigu;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
-@ComponentScan(basePackages = {"com.atguigu"})
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = "com.atguigu")
-public class ServiceHospApplication {
+public class ServiceGateWayApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ServiceHospApplication.class,args);
+        SpringApplication.run(ServiceGateWayApplication.class,args);
     }
 }

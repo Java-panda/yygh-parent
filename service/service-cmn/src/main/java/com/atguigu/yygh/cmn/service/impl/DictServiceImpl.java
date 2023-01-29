@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -67,7 +68,6 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         }
     }
 
-    @Override
     public Dict getDictByDictCode(String dictCode) {
         QueryWrapper<Dict> dictWrapper = new QueryWrapper<>();
         dictWrapper.eq("dict_code", dictCode);
@@ -77,12 +77,31 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
 
     @Override
     public Dict getDictByDictCodeAndvalue(String dictCode, String value) {
-        Dict dictByDictCode = getDictByDictCode(dictCode);
-        QueryWrapper<Dict> dictWrapper = new QueryWrapper<>();
-        dictWrapper.eq("value", value);
-        dictWrapper.eq("parent_id", dictByDictCode.getId());
-        Dict dict = baseMapper.selectOne(dictWrapper);
+        Dict dict = null;
+        if (!StringUtils.isEmpty(dictCode)){
+            Dict dictByDictCode = getDictByDictCode(dictCode);
+            QueryWrapper<Dict> dictWrapper = new QueryWrapper<>();
+            dictWrapper.eq("value", value);
+            dictWrapper.eq("parent_id", dictByDictCode.getId());
+            dict = baseMapper.selectOne(dictWrapper);
+        }else {
+            QueryWrapper<Dict> valueWrapper = new QueryWrapper<>();
+            valueWrapper.eq("value", value);
+            dict = baseMapper.selectOne(valueWrapper);
+        }
         return dict;
+    }
+
+    @Override
+    public Dict getDictByValue(String value) {
+        return getDictByDictCodeAndvalue(null,value);
+    }
+
+    @Override
+    public List<Dict> getDictListByDictCode(String dictCode) {
+        Dict dictByDictCode = getDictByDictCode(dictCode);
+        List<Dict> dictList = getDictChildrenByParentId(dictByDictCode.getId());
+        return dictList;
     }
 
     /**
